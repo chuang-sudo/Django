@@ -1,0 +1,106 @@
+{% extends  'base_main.html' %}
+{% load static %}
+{% block ext_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'axf/cart/css/cart.css' %}">
+{% endblock %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script src="{% static 'axf/cart/js/cart.js' %}"></script>
+    <script src="{% static 'js/jquery.cookie.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <div id="cart">
+        <h3><b>购物车</b></h3>
+
+        <section class="full">
+            <section>
+                <ul>
+                    <li>
+                        <div class="clear">
+                            <p class="infoJustify">收货人<b></b></p>
+                            <p>:<span>Rock</span></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="clear">
+                            <p class="infoJustify">电话<b></b></p>
+                            <p>:<span>110</span><a class="change">修改></a></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="clear"><p class="infoJustify">收货地址<b></b></p>
+                            <p>:<span>北京市海淀区天丰利商城</span></p>
+                        </div>
+                    </li>
+                </ul>
+
+
+                <section class="bill">
+                    <p>闪送超市</p>
+                    <p>¥0起送,22:00前满¥30免运费</p>
+                    <a>凑单专区</a>
+                </section>
+
+
+                <section class="delivery">
+                    <span>收货时间</span> <span>一小时送达</span> <a>可预订></a>
+                </section>
+                <section class="delivery">
+                    <span>收货备注</span> <input type="text" placeholder="可输入100字以内特殊要求内容"/>
+                </section>
+
+
+                <menu>
+                    <ul>
+                        {% for item in carts %}
+                            <li id="{{ item.c_goods.id }}" class="menuList">
+                                <div class="confirm">
+                                    <span class="is_select" ga="{{ item.id }}">
+
+                                        {% ifequal True item.c_is_select %}
+                                            √
+                                        {% endifequal %}
+
+                                    </span>
+                                </div>
+                                <a href="#">
+                                    <img src=""/>
+                                    <p>{{ item.c_goods.productlongname }}</p>
+                                    <span id="{{ item.c_goods.price }}">￥{{ item.c_goods.price }}</span>
+                                </a>
+                                <section>
+                                    <button class="subShopping" ga="{{ item.id }}">-</button>
+                                    <span id="{{ item.c_goods.id }}">{{ item.c_goods_nums }}</span>
+                                    <button class="addShopping" ga="{{ item.id }}">+</button>
+                                </section>
+                            </li>
+                        {% endfor %}
+
+                        <li class="payTheBill">
+                            <div class="confirm">
+                                <span class="all_select">
+
+                                    {% if is_all_select %}
+                                        √
+                                        {% else %}
+
+                                    {% endif %}
+
+
+                                </span>
+                            </div>
+                            <p>
+                                <span>全选</span>
+                                <span>共计:<span class="sum_money">{{ sum_price }}</span></span>
+                                <span>总价:<span class="sum_money">{{ sum_price }}</span></span>
+                            </p>
+                            <span id="ok">下单</span>
+                        </li>
+                    </ul>
+                </menu>
+            </section>
+        </section>
+    </div>
+{% endblock %}

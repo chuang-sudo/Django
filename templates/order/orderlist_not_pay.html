@@ -1,0 +1,12 @@
+{% extends 'base_order.html' %}
+{% load static %}
+
+{% block ext_js %}
+    <script src="{% static 'axf/order/js/order_not_pay.js' %}"></script>
+{% endblock %}
+{% block content %}
+    {% for order in orders %}
+        <a  orderid = {{ order.id }}>订单编号：{{ order.id }}</a>
+    {% endfor %}
+
+{% endblock %}

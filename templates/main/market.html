@@ -1,0 +1,124 @@
+{% extends 'base_main.html' %}
+{% load static %}
+
+{% block ext_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'axf/market/css/market.css' %}">
+{% endblock %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script src="{% static 'axf/market/js/market.js' %}"></script>
+    <script src="{% static 'js/jquery.cookie.js' %}"></script>
+{% endblock %}
+{% block content %}
+
+    <div id="market">
+        <aside>
+            <menu>
+                <ul>
+                    {% for item in foodtypes %}
+                        <li>
+                            {% ifequal item.typeid typeid%}
+                                 <span class="yellowSlide"></span>
+                            {% endifequal %}
+                            <a href="/axf/marketwithparam/{{ item.typeid }}/0/0/">{{ item.typenames }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </menu>
+        </aside>
+
+
+        <section>
+            <nav>
+                <ul>
+                    <li>
+                        <span id="alltypebtn">全部类型<span class="glyphicon glyphicon-chevron-down" style="font-weight: 100"></span></span>
+                    </li>
+                    <li>
+                        <span id="showsortbtn">综合排序<span class="glyphicon glyphicon-chevron-down" style="font-weight: 100"></span></span>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <menu>
+                <ul>
+                    {% for item in good_list %}
+                        <li>
+                            <a href="#">
+                                <img src=""/>
+                                <article class="shoppingInfo">
+                                    <h6>{{ item.productlongname }}</h6>
+                                    <p class="detailTag"><span>精选</span><span>{{ item.pedesc }}</span></p>
+                                    <span class="unit">{{ item.specifics }}</span>
+                                    <p class="price">
+                                        <span>￥{{ item.price }}</span><s><span>￥{{ item.marketprice }}</span></s></p>
+                                </article>
+                            </a>
+                            <section>
+                                <button g_id="{{ item.id }}" class="subShopping">-</button>
+
+                                <span id="{{ item.id }}">{{ item.num|default:0 }}</span>
+
+                                <button g_id="{{ item.id }}" class="addShopping">+</button>
+                            </section>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div id="typediv">
+                    <div>
+                        {% for item in foodtype_childtypenames_list_list %}
+                            <a href="/axf/marketwithparam/{{ typeid }}/{{ item.1 }}/0">
+                            {% ifequal item.1 childcid %}
+                                <button class="btn-success">{{ item.0 }}</button>
+                                {% else %}
+                                <button class="btn-default">{{ item.0 }}</button>
+                            {% endifequal %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="sortdiv">
+                    <div>
+                        <a href="/axf/marketwithparam/{{ typeid }}/{{ childcid }}/0/" class="sorta">
+                            {% ifequal '0' sortid %}
+                            <button class="btn-success">综合排序</button>
+                                {% else %}
+                            <button class="btn-default">综合排序</button>
+                            {% endifequal %}
+                        </a>
+                        <a href="/axf/marketwithparam/{{ typeid }}/{{ childcid }}/1/" class="sorta">
+                            {% ifequal '1' sortid %}
+                            <button class="btn-success">销量最高</button>
+                                {% else %}
+                            <button class="btn-default">销量最高</button>
+                            {% endifequal %}
+                        </a>
+                        <a href="/axf/marketwithparam/{{ typeid }}/{{ childcid }}/2/" class="sorta">
+                            {% ifequal '2' sortid %}
+                            <button class="btn-success">价格最低</button>
+                                {% else %}
+                            <button class="btn-default">价格最低</button>
+                            {% endifequal %}
+                        </a>
+                        <a href="/axf/marketwithparam/{{ typeid }}/{{ childcid }}/3/" class="sorta">
+                            {% ifequal '3' sortid %}
+                            <button class="btn-success">价格最高</button>
+                                {% else %}
+                            <button class="btn-default">价格最高</button>
+                            {% endifequal %}
+                        </a>
+                    </div>
+                </div>
+            </menu>
+
+
+        </section>
+
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base_user.html' %}
+{% load static%}
+
+{% block ext_css %}
+    {{ block.super}}
+    <link rel="stylesheet" href="{% static 'axf/user/css/register.css' %}">
+{% endblock %}
+
+
+{% block ext_js %}
+    {{ block.super}}
+    <script src="{% static 'axf/user/js/login.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" action="{% url 'axf:login' %}" onsubmit="return parse_data()">
+
+            {% csrf_token %}
+            <span style="color: red">{{ erro_message }}</span>
+            <div class="form-group">
+                <label for="username_input">用户名</label>
+                <input name="username" type="text" class="form-control" id="username_input" placeholder="用户名/邮箱">
+            </div>
+             <div class="form-group">
+                <label for="password_input">密码</label>
+                <input name="password" type="password" class="form-control" id="password_input" placeholder="请输入密码">
+             </div>
+            <div class="form-group">
+                <label for="verifycode_input">验证码</label>
+                <input name="verifycode" type="password" class="form-control" id="verifycode_input" placeholder="请输入验证码">
+                <img id="verifycode_img" src="{% url 'axf:verifycode' %}" alt="验证码">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block">登录</button>
+        </form>
+    </div>
+    <div class="register">
+        <a href="{% url 'axf:register'  %}">没有账号，立马点击去注册</a>
+    </div>
+    <div class="forget">
+        <a href="{% url 'axf:forget'  %}">忘记密码</a>
+    </div>
+
+
+
+
+
+{% endblock %}
